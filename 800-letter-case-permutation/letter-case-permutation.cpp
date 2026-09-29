@@ -1,37 +1,26 @@
 class Solution {
 public:
-    vector<string> ans;
-
     vector<string> letterCasePermutation(string s) {
-        solve(s, "");
+        vector<string> ans;
+        solve(s, 0, ans);
         return ans;
     }
 
-    void solve(string ip, string op) {
-        if (ip.size() == 0) {
-            ans.push_back(op);
+private:
+    void solve(string &s, int idx, vector<string> &ans) {
+        if (idx == s.size()) {
+            ans.push_back(s);
             return;
         }
 
-        if (isalpha(ip[0])) {
-            string op1 = op;
-            string op2 = op;
+        if (isalpha(s[idx])) {
+            s[idx] = tolower(s[idx]);
+            solve(s, idx + 1, ans);
 
-            op1 += tolower(ip[0]);
-            op2 += toupper(ip[0]);
-
-            ip.erase(ip.begin());
-
-            solve(ip, op1);
-            solve(ip, op2);
-        }
-        else {
-            string op1 = op;
-            op1 += ip[0];
-
-            ip.erase(ip.begin());
-
-            solve(ip, op1);
+            s[idx] = toupper(s[idx]);
+            solve(s, idx + 1, ans);
+        } else {
+            solve(s, idx + 1, ans);
         }
     }
 };
